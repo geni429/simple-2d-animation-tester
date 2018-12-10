@@ -1,0 +1,29 @@
+{
+  "name": "simple-2d-animation-tester",
+  "version": "0.0.1",
+  "description": "simple 2d animation tester for cooperation",
+  "main": "index.tsx",
+  "repository": "https://github.com/geni429/simple-2d-animation-tester",
+  "author": "Roy Jeong <roy.jeong@sendbird.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/react": "^16.7.13",
+    "@types/react-dom": "^16.0.11",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/styled-components": "^4.1.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "styled-components": "^4.1.2",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-react": "^7.0.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
