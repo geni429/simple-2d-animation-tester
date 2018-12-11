@@ -11,39 +11,35 @@ module.exports = {
   },
   devtool: "soruce-map",
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".ts", ".tsx", ".js", ".json"]
   },
   module: {
     rules: [
       {
-        test: /\.ts|tsx/,
-        use: "awesome-typescript-loader"
-      },
-      {
-        test: /\.js/,
-        use: "babel-loader"
-      },
-      {
-        test: /\.html$/,
-        loader: "html-loader"
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: "ts-loader"
       },
       {
         enforce: "pre",
         test: /\.js$/,
         loader: "source-map-loader"
+      },
+      {
+        test: /\.html$/,
+        loader: "html-loader"
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/public/index.html"
-    }),
-    new webpack.SourceMapDevToolPlugin({
-      filename: "bundle.js.map"
     })
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),
+    compress: true,
+    host: '0.0.0.0',
     port: 3000
   }
 };
