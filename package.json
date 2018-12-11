@@ -6,6 +6,10 @@
   "repository": "https://github.com/geni429/simple-2d-animation-tester",
   "author": "Roy Jeong <roy.jeong@sendbird.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "build": "webpack --mode production"
+  },
   "dependencies": {
     "@types/react": "^16.7.13",
     "@types/react-dom": "^16.0.11",
@@ -22,8 +26,12 @@
     "@babel/preset-env": "^7.2.0",
     "@babel/preset-react": "^7.0.0",
     "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.4",
+    "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
+    "source-map-loader": "^0.2.4",
     "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   }
 }
