@@ -11,6 +11,13 @@ type RTisTargetCompleted = {
   isTargetCreated: boolean;
 };
 // components props
+type InputTargetProps = {
+  fadeIn(): void;
+  fadeOut(): void;
+  addFile(event: React.ChangeEvent<HTMLInputElement>): void;
+  isDragOver: boolean;
+  isTargetCreated: boolean;
+};
 type Props = {};
 type State = {
   isDragOver: boolean;
@@ -24,7 +31,7 @@ const Container = styled.div`
   height: 180px;
 `;
 
-const InputFileArea = styled(FlexBox)<InputFileAreaProps>`
+const InputTargetFileContainer = styled(FlexBox)<InputFileAreaProps>`
   display: ${props => (props.isTargetCreated ? "none" : "")};
   position: relative;
   width: 100%;
@@ -36,7 +43,7 @@ const InputFileArea = styled(FlexBox)<InputFileAreaProps>`
   transition: 0.3s;
 `;
 
-const InputFile = styled.input.attrs({
+const InputTargetFile = styled.input.attrs({
   type: "file"
 })`
   position: absolute;
@@ -56,7 +63,38 @@ const TargetName = styled(Content)<RTisTargetCompleted>`
   display: ${props => (props.isTargetCreated ? "" : "none")};
 `;
 
-// component
+// components
+const InputTarget: React.SFC<InputTargetProps> = ({
+  fadeIn,
+  fadeOut,
+  addFile,
+  isDragOver,
+  isTargetCreated
+}) => {
+  const inputFileContentStyle: React.CSSProperties = {
+    position: "absolute",
+    zIndex: 0
+  };
+
+  return (
+    <InputTargetFileContainer
+      justifyContent="center"
+      alignItems="center"
+      isDragOver={isDragOver}
+      isTargetCreated={isTargetCreated}
+    >
+      <InputTargetFile
+        onDragOver={fadeIn}
+        onDragLeave={fadeOut}
+        onChange={addFile}
+      />
+      <Content style={inputFileContentStyle}>
+        <Strong>Choose a file</Strong> or drag it here.
+      </Content>
+    </InputTargetFileContainer>
+  );
+};
+
 export class CreateTarget extends React.Component<Props, State> {
   public state: State = {
     isDragOver: false,
@@ -66,7 +104,7 @@ export class CreateTarget extends React.Component<Props, State> {
 
   private targetPreviewRef = React.createRef<HTMLImageElement>();
 
-  private dragOverToAddFile = () => {
+  private fadeIn = () => {
     if (!this.state.isDragOver) {
       this.setState({
         isDragOver: true
@@ -74,7 +112,7 @@ export class CreateTarget extends React.Component<Props, State> {
     }
   };
 
-  private dragLeave = () => {
+  private fadeOut = () => {
     this.setState({
       isDragOver: false
     });
@@ -95,28 +133,17 @@ export class CreateTarget extends React.Component<Props, State> {
   };
 
   render() {
-    const inputFileContentStyle: React.CSSProperties = {
-      position: "absolute",
-      zIndex: 0
+    const inputTargetProps = {
+      fadeIn: this.fadeIn,
+      fadeOut: this.fadeOut,
+      addFile: this.addFile,
+      isDragOver: this.state.isDragOver,
+      isTargetCreated: this.state.isTargetCreated
     };
 
     return (
       <Container>
-        <InputFileArea
-          justifyContent="center"
-          alignItems="center"
-          isDragOver={this.state.isDragOver}
-          isTargetCreated={this.state.isTargetCreated}
-        >
-          <InputFile
-            onDragOver={this.dragOverToAddFile}
-            onDragLeave={this.dragLeave}
-            onChange={this.addFile}
-          />
-          <Content style={inputFileContentStyle}>
-            <Strong>Choose a file</Strong> or drag it here.
-          </Content>
-        </InputFileArea>
+        <InputTarget {...inputTargetProps} />
         <TargetPreview
           isTargetCreated={this.state.isTargetCreated}
           ref={this.targetPreviewRef}
