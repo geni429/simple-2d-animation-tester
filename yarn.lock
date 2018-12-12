@@ -4697,6 +4697,16 @@ styled-components@^4.1.2:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
+styled-normalize@^8.0.4:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/styled-normalize/-/styled-normalize-8.0.4.tgz#6a0885dc16c61d88813dab8f5137da928fe0c947"
+  integrity sha512-dXkKPnT+JcpqYnS0iQiBhUCOdheDz9xEm3H+ZARJV7l4WCXmRkwCx20ujkIYfESoYaiefbuX+F+rbtF6Ku5kvA==
+
+styled-reset@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-1.6.2.tgz#29bc122e29d174d51d60da80cff0e7b782daeafc"
+  integrity sha512-hfG0c6ET6SrS0PTW2lpfuoZc9RkRnCpHgdT59aIF0ssCWMkZ2qPuKsCxSozOSTHKUhPqxxMWAzjd3tWcPbrP4w==
+
 stylis-rule-sheet@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/stylis-rule-sheet/-/stylis-rule-sheet-0.0.10.tgz#44e64a2b076643f4b52e5ff71efc04d8c3c4a430"
