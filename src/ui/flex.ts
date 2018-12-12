@@ -29,6 +29,6 @@ type FlexBoxProps = FlexBoxChildAlign & FlexBoxDirection;
 export const FlexBox = styled.div<FlexBoxProps>`
   display: flex;
   flex-direction: ${props => props.direction};
-  jusity-content: ${props => props.justifyContent};
+  justify-content: ${props => props.justifyContent};
   align-items: ${props => props.alignItems};
 `;

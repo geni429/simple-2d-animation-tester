@@ -1,7 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { Header } from "../ui";
+import { Header, SubTitle } from "../ui";
+import { CreateTarget } from "./createTarget";
 
 const AsideContainer = styled.aside`
   width: 420px;
@@ -15,6 +16,8 @@ export class AsideTool extends React.Component {
     return (
       <AsideContainer>
         <Header>Animation Maker</Header>
+        <SubTitle>Create Target</SubTitle>
+        <CreateTarget />
       </AsideContainer>
     );
   }
