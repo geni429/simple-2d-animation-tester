@@ -1,3 +1,1 @@
-import Main from "./main";
-
-export { Main };
+export { CreateAnimation } from "./createAnimation";
