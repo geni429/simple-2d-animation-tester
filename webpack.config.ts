@@ -34,12 +34,15 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/public/index.html"
+    }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: "bundle.js.map"
     })
   ],
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 3000
   }
 };

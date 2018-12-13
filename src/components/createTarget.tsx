@@ -1,6 +1,13 @@
 import * as React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
+
 import { Content, FlexBox, Strong } from "../ui";
+import { setTarget } from "../actions/animations";
+
+const mapDispatchToProps = {
+  setTarget
+};
 
 // styled components props
 type InputFileAreaProps = {
@@ -18,7 +25,7 @@ type InputTargetProps = {
   isDragOver: boolean;
   isTargetCreated: boolean;
 };
-type Props = {};
+type Props = typeof mapDispatchToProps;
 type State = {
   isDragOver: boolean;
   isTargetCreated: boolean;
@@ -95,7 +102,7 @@ const InputTarget: React.SFC<InputTargetProps> = ({
   );
 };
 
-export class CreateTarget extends React.Component<Props, State> {
+class CreateTargetComponent extends React.Component<Props, State> {
   public state: State = {
     isDragOver: false,
     isTargetCreated: false,
@@ -123,6 +130,7 @@ export class CreateTarget extends React.Component<Props, State> {
     reader.readAsDataURL(event.currentTarget.files![0]);
     reader.onload = () => {
       this.targetPreviewRef.current!.src = String(reader.result);
+      this.props.setTarget(String(reader.result));
     };
 
     this.setState({
@@ -155,3 +163,8 @@ export class CreateTarget extends React.Component<Props, State> {
     );
   }
 }
+
+export const CreateTarget = connect(
+  null,
+  mapDispatchToProps
+)(CreateTargetComponent);

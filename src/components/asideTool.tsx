@@ -1,8 +1,19 @@
 import * as React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 import { Header, SubTitle } from "../ui";
 import { CreateTarget } from "./createTarget";
+import { RootState } from "../reducers/states";
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    animations: state.animations
+  };
+};
+
+type Props = ReturnType<typeof mapStateToProps>;
+type State = {};
 
 const AsideContainer = styled.aside`
   width: 420px;
@@ -11,7 +22,7 @@ const AsideContainer = styled.aside`
   background: #c8c0fc;
 `;
 
-export class AsideTool extends React.Component {
+class AsideToolComponent extends React.Component<Props, State> {
   render() {
     return (
       <AsideContainer>
@@ -22,3 +33,5 @@ export class AsideTool extends React.Component {
     );
   }
 }
+
+export const AsideTool = connect(mapStateToProps)(AsideToolComponent);
