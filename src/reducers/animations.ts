@@ -1,7 +1,11 @@
 import { SET_TARGET, SET_INITIAL_OPTIONS } from "@actions/constants";
 
 const initialState: AnimationsState = {
-  target: "",
+  target: {
+    data: "",
+    width: 0,
+    height: 0
+  },
   options: {
     fixed: false
   }

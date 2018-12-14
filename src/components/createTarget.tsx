@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Content, FlexBox, Strong, SubTitle, PrimaryButton } from "@ui";
 import { setTarget, setInitialOptions } from "@actions/animations";
 import { OptionsDropdown, Option } from "./optionsDropdown";
+import { getSizeWithUnit } from "@utils";
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -196,7 +197,15 @@ class CreateTargetComponent extends React.Component<Props, State> {
       reader.readAsDataURL(targetFile);
       reader.onload = () => {
         this.targetPreviewRef.current!.src = String(reader.result);
-        this.props.setTarget(String(reader.result));
+        const target = new Image();
+        target.src = String(reader.result);
+        target.onload = () => {
+          this.props.setTarget({
+            data: String(reader.result),
+            width: target.width,
+            height: target.height
+          });
+        };
       };
 
       this.setState({

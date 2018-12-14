@@ -1,5 +1,5 @@
 interface AnimationsState {
-  target: string;
+  target: AnimationTarget;
   options: AnimationOptions;
 }
 
