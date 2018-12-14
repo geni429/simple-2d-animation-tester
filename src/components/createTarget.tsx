@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
-import { Content, FlexBox, Strong, SubTitle, Button } from "@ui";
+import { Content, FlexBox, Strong, SubTitle, PrimaryButton } from "@ui";
 import { setTarget, setInitialOptions } from "@actions/animations";
 import { OptionsDropdown, Option } from "./optionsDropdown";
 
@@ -23,9 +23,6 @@ type InputFileAreaProps = {
   isTargetCreated: boolean;
 };
 
-type RTisTargetCompleted = {
-  isTargetCreated: boolean;
-};
 // components props
 type InputTargetProps = {
   fadeIn(): void;
@@ -33,6 +30,8 @@ type InputTargetProps = {
   addFile(event: React.ChangeEvent<HTMLInputElement>): void;
   isDragOver: boolean;
   isTargetCreated: boolean;
+  targetRef: React.RefObject<HTMLImageElement>;
+  targetName: string;
 };
 
 type InitialSettingProps = {
@@ -55,13 +54,12 @@ const Container = styled.div`
 `;
 
 const InputTargetFileContainer = styled(FlexBox)<InputFileAreaProps>`
-  display: ${props => (props.isTargetCreated ? "none" : "")};
   position: relative;
   width: 100%;
-  height: 100%;
-  margin-bottom: 20px;
+  height: ${props => (props.isTargetCreated ? "" : "100%")};
+  margin-bottom: ${props => (props.isTargetCreated ? "40" : "20")}px;
   background: ${props => (props.isDragOver ? "#fff" : "")};
-  border-width: 1px;
+  border-width: ${props => (props.isTargetCreated ? "0" : "1px")};
   border-color: #000;
   border-style: dashed;
   transition: 0.3s;
@@ -71,21 +69,30 @@ const InputTargetFile = styled.input.attrs({
   type: "file"
 })`
   position: absolute;
-  z-index: 10;
+  z-index: 20;
   width: 100%;
   height: 100%;
   opacity: 0;
 `;
 
-const TargetPreview = styled.img<RTisTargetCompleted>`
-  display: ${props => (props.isTargetCreated ? "" : "none")};
+const TargetPreview = styled.img<{ isDragOver: boolean }>`
+  position: relative;
+  z-index: 0;
   max-width: 100%;
-  margin-bottom: 5px;
+  opacity: ${props => (props.isDragOver ? 0 : 1)};
 `;
 
-const TargetName = styled(Content)<RTisTargetCompleted>`
-  display: ${props => (props.isTargetCreated ? "" : "none")};
-  margin-bottom: 20px;
+const TargetName = styled(Content)`
+  position: absolute;
+  bottom: -10px;
+  z-index: 0;
+  transform: translateY(100%);
+  width: 100%;
+  margin-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 `;
 
 const InitialSettingContainer = styled.div``;
@@ -96,11 +103,14 @@ const InputTarget: React.SFC<InputTargetProps> = ({
   fadeOut,
   addFile,
   isDragOver,
-  isTargetCreated
+  isTargetCreated,
+  targetRef,
+  targetName
 }) => {
   const inputFileContentStyle: React.CSSProperties = {
     position: "absolute",
-    zIndex: 0
+    zIndex: 10,
+    opacity: !targetName.length ? 1 : isDragOver ? 1 : 0
   };
 
   return (
@@ -113,11 +123,23 @@ const InputTarget: React.SFC<InputTargetProps> = ({
       <InputTargetFile
         onDragOver={fadeIn}
         onDragLeave={fadeOut}
+        onDrop={fadeOut}
         onChange={addFile}
       />
       <Content style={inputFileContentStyle}>
-        <Strong>Choose a file</Strong> or drag it here.
+        {isDragOver ? (
+          <React.Fragment>
+            <Strong>Drop</Strong> here{" "}
+            {!targetName.length ? "." : "to change target."}
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Strong>Choose a file</Strong> or drag it here.
+          </React.Fragment>
+        )}
       </Content>
+      <TargetPreview ref={targetRef} isDragOver={isDragOver} />
+      <TargetName>{targetName}</TargetName>
     </InputTargetFileContainer>
   );
 };
@@ -167,18 +189,22 @@ class CreateTargetComponent extends React.Component<Props, State> {
   };
 
   private addFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(event.currentTarget.files![0]);
-    reader.onload = () => {
-      this.targetPreviewRef.current!.src = String(reader.result);
-      this.props.setTarget(String(reader.result));
-    };
+    const targetFile = event.currentTarget.files![0];
 
-    this.setState({
-      isDragOver: false,
-      isTargetCreated: true,
-      targetName: event.currentTarget.files![0].name
-    });
+    if (targetFile) {
+      const reader = new FileReader();
+      reader.readAsDataURL(targetFile);
+      reader.onload = () => {
+        this.targetPreviewRef.current!.src = String(reader.result);
+        this.props.setTarget(String(reader.result));
+      };
+
+      this.setState({
+        isDragOver: false,
+        isTargetCreated: true,
+        targetName: event.currentTarget.files![0].name
+      });
+    }
   };
 
   public checkOption = (key: AnimationOptionKeys) => {
@@ -193,7 +219,9 @@ class CreateTargetComponent extends React.Component<Props, State> {
       fadeOut: this.fadeOut,
       addFile: this.addFile,
       isDragOver: this.state.isDragOver,
-      isTargetCreated: this.state.isTargetCreated
+      isTargetCreated: this.state.isTargetCreated,
+      targetRef: this.targetPreviewRef,
+      targetName: this.state.targetName
     };
     const initialSettingProps: InitialSettingProps = {
       options: {
@@ -215,15 +243,8 @@ class CreateTargetComponent extends React.Component<Props, State> {
     return (
       <Container>
         <InputTarget {...inputTargetProps} />
-        <TargetPreview
-          isTargetCreated={this.state.isTargetCreated}
-          ref={this.targetPreviewRef}
-        />
-        <TargetName isTargetCreated={this.state.isTargetCreated}>
-          {this.state.targetName}
-        </TargetName>
         <InitialSetting {...initialSettingProps} />
-        <Button>Create Animation</Button>
+        <PrimaryButton>Create Animation</PrimaryButton>
       </Container>
     );
   }

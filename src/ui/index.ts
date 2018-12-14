@@ -12,4 +12,4 @@ export {
 // checkbox
 export { CheckBox } from "./checkBox";
 // button
-export { Button } from "./button";
+export { PrimaryButton } from "./button";

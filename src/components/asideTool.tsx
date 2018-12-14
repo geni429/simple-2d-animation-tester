@@ -27,7 +27,6 @@ const AsideContainer = styled.aside`
 // components
 class AsideToolComponent extends React.Component<Props, State> {
   render() {
-    console.log("animations", this.props.animations);
     return (
       <AsideContainer>
         <Header>Animation Maker</Header>
