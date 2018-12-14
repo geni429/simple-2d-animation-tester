@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 
 import { AsideTool } from "@components";
-import { FlexBox } from "@ui";
+import { FlexBox, Header } from "@ui";
 
 // components props
 type Props = {};
@@ -10,9 +10,9 @@ type Props = {};
 type State = {};
 
 // styled components
-const Container = styled.div`
+const Container = styled(FlexBox)`
   width: calc(100% - 420px);
-  height: 500px;
+  height: 100vh;
   background: #ffffff;
 `;
 
@@ -22,8 +22,8 @@ export class CreateAnimation extends React.Component<Props, State> {
     return (
       <FlexBox direction="row">
         <AsideTool />
-        <Container>
-          <></>
+        <Container justifyContent="center" alignItems="center">
+          <Header>Create animation object to make your animation!</Header>
         </Container>
       </FlexBox>
     );
