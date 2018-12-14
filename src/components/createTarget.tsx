@@ -2,8 +2,8 @@ import * as React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
-import { Content, FlexBox, Strong, SubTitle, Button } from "../ui";
-import { setTarget, setInitialOptions } from "../actions/animations";
+import { Content, FlexBox, Strong, SubTitle, Button } from "@ui";
+import { setTarget, setInitialOptions } from "@actions/animations";
 import { OptionsDropdown, Option } from "./optionsDropdown";
 
 const mapStateToProps = (state: RootState) => {

@@ -12,7 +12,22 @@
     /* Module Resolution Options */
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
     "baseUrl": "./src",
-    "paths": {},
+    "paths": {
+      "@actions": ["/actions"],
+      "@actions/*": ["actions/*"],
+      "@components": ["components"],
+      "@components/*": ["components/*"],
+      "@epics": ["epics"],
+      "@epics/*": ["epics/*"],
+      "@pages": ["pages"],
+      "@pages/*": ["pages/*"],
+      "@reducers": ["reducers"],
+      "@reducers/*": ["reducers/*"],
+      "@ui": ["ui"],
+      "@ui/*": ["ui/*"],
+      "@utils": ["utils"],
+      "@utils/*": ["utils/*"]
+    },
     "esModuleInterop": true,
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */

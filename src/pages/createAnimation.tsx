@@ -1,8 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { AsideTool } from "../components";
-import { FlexBox } from "../ui";
+import { AsideTool } from "@components";
+import { FlexBox } from "@ui";
 
 // components props
 type Props = {};

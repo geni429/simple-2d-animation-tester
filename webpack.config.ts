@@ -11,7 +11,16 @@ module.exports = {
   },
   devtool: "soruce-map",
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json"],
+    alias: {
+      "@actions": path.resolve(__dirname, "src/actions"),
+      "@components": path.resolve(__dirname, "src/components"),
+      "@epics": path.resolve(__dirname, "src/epics"),
+      "@pages": path.resolve(__dirname, "src/pages"),
+      "@reducers": path.resolve(__dirname, "src/reducers"),
+      "@ui": path.resolve(__dirname, "src/ui"),
+      "@utils": path.resolve(__dirname, "src/utils")
+    }
   },
   module: {
     rules: [

@@ -1,5 +1,3 @@
-import { fromEventPattern } from "rxjs";
-
 // flex
 export { FlexBox } from "./flex";
 // paragraph

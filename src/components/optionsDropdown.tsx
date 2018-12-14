@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { Category, FlexBox, CheckBox, Content } from "../ui";
+import { Category, FlexBox, CheckBox, Content } from "@ui";
 
 export type Option = {
   key: string;

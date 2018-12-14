@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
-import { Header, SubTitle } from "../ui";
+import { Header, SubTitle } from "@ui";
 import { CreateTarget } from "./createTarget";
 
 const mapStateToProps = (state: RootState) => {

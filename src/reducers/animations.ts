@@ -1,4 +1,4 @@
-import { SET_TARGET, SET_INITIAL_OPTIONS } from "../actions/constants";
+import { SET_TARGET, SET_INITIAL_OPTIONS } from "@actions/constants";
 
 const initialState: AnimationsState = {
   target: "",
