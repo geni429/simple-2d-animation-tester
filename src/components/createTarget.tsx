@@ -2,11 +2,19 @@ import * as React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
-import { Content, FlexBox, Strong } from "../ui";
-import { setTarget } from "../actions/animations";
+import { Content, FlexBox, Strong, SubTitle, Button } from "../ui";
+import { setTarget, setInitialOptions } from "../actions/animations";
+import { OptionsDropdown, Option } from "./optionsDropdown";
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    animations: state.animations
+  };
+};
 
 const mapDispatchToProps = {
-  setTarget
+  setTarget,
+  setInitialOptions
 };
 
 // styled components props
@@ -14,6 +22,7 @@ type InputFileAreaProps = {
   isDragOver: boolean;
   isTargetCreated: boolean;
 };
+
 type RTisTargetCompleted = {
   isTargetCreated: boolean;
 };
@@ -25,7 +34,14 @@ type InputTargetProps = {
   isDragOver: boolean;
   isTargetCreated: boolean;
 };
-type Props = typeof mapDispatchToProps;
+
+type InitialSettingProps = {
+  options: ObjectType<Array<Option>>;
+  checkOptionEvent(optionName: string): void;
+};
+
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+
 type State = {
   isDragOver: boolean;
   isTargetCreated: boolean;
@@ -43,6 +59,7 @@ const InputTargetFileContainer = styled(FlexBox)<InputFileAreaProps>`
   position: relative;
   width: 100%;
   height: 100%;
+  margin-bottom: 20px;
   background: ${props => (props.isDragOver ? "#fff" : "")};
   border-width: 1px;
   border-color: #000;
@@ -68,7 +85,10 @@ const TargetPreview = styled.img<RTisTargetCompleted>`
 
 const TargetName = styled(Content)<RTisTargetCompleted>`
   display: ${props => (props.isTargetCreated ? "" : "none")};
+  margin-bottom: 20px;
 `;
+
+const InitialSettingContainer = styled.div``;
 
 // components
 const InputTarget: React.SFC<InputTargetProps> = ({
@@ -99,6 +119,27 @@ const InputTarget: React.SFC<InputTargetProps> = ({
         <Strong>Choose a file</Strong> or drag it here.
       </Content>
     </InputTargetFileContainer>
+  );
+};
+
+const InitialSetting: React.SFC<InitialSettingProps> = ({
+  options,
+  checkOptionEvent
+}) => {
+  return (
+    <InitialSettingContainer>
+      <SubTitle>Initial setting</SubTitle>
+      {Object.keys(options).map(optionName => {
+        return (
+          <OptionsDropdown
+            key={`${options[optionName]}`}
+            optionName={optionName}
+            optionItems={options[optionName]}
+            checkOptionEvent={checkOptionEvent}
+          />
+        );
+      })}
+    </InitialSettingContainer>
   );
 };
 
@@ -140,13 +181,35 @@ class CreateTargetComponent extends React.Component<Props, State> {
     });
   };
 
+  public checkOption = (key: AnimationOptionKeys) => {
+    const options = { ...this.props.animations.options };
+    options[key] = !options[key];
+    this.props.setInitialOptions(options);
+  };
+
   render() {
-    const inputTargetProps = {
+    const inputTargetProps: InputTargetProps = {
       fadeIn: this.fadeIn,
       fadeOut: this.fadeOut,
       addFile: this.addFile,
       isDragOver: this.state.isDragOver,
       isTargetCreated: this.state.isTargetCreated
+    };
+    const initialSettingProps: InitialSettingProps = {
+      options: {
+        placement: [
+          { key: "fixed", name: "fixed (no animation)", isChecked: false }
+        ],
+        animation: [
+          {
+            key: "transform",
+            name: "transform animation",
+            isChecked: false
+          },
+          { key: "fade", name: "fade animation", isChecked: false }
+        ]
+      },
+      checkOptionEvent: this.checkOption
     };
 
     return (
@@ -159,12 +222,14 @@ class CreateTargetComponent extends React.Component<Props, State> {
         <TargetName isTargetCreated={this.state.isTargetCreated}>
           {this.state.targetName}
         </TargetName>
+        <InitialSetting {...initialSettingProps} />
+        <Button>Create Animation</Button>
       </Container>
     );
   }
 }
 
 export const CreateTarget = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CreateTargetComponent);

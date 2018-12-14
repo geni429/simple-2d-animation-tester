@@ -1,11 +1,9 @@
-import { SET_TARGET, SET_TARGET_SUCCESS } from "./constants";
+import { SET_TARGET, SET_INITIAL_OPTIONS } from "./constants";
 import { createAction } from "./utils";
 
 export const setTarget = (target: string) => {
-  console.log("set target");
   return createAction(SET_TARGET, target);
 };
-
-export const setTargetSuccess = (payload: any) => {
-  return createAction(SET_TARGET_SUCCESS, payload);
+export const setInitialOptions = (options: AnimationOptions) => {
+  return createAction(SET_INITIAL_OPTIONS, options);
 };
