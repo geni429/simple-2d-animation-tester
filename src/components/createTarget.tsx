@@ -226,7 +226,11 @@ class CreateTargetComponent extends React.Component<Props, State> {
     const initialSettingProps: InitialSettingProps = {
       options: {
         placement: [
-          { key: "fixed", name: "fixed (no animation)", isChecked: false }
+          {
+            key: "fixed",
+            name: "fixed (no animation)",
+            isChecked: false
+          }
         ],
         animation: [
           {
@@ -234,7 +238,11 @@ class CreateTargetComponent extends React.Component<Props, State> {
             name: "transform animation",
             isChecked: false
           },
-          { key: "fade", name: "fade animation", isChecked: false }
+          {
+            key: "fade",
+            name: "fade animation",
+            isChecked: false
+          }
         ]
       },
       checkOptionEvent: this.checkOption
