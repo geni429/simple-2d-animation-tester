@@ -30,11 +30,13 @@ const Container = styled(FlexBox)`
 `;
 
 const TargetContainer = styled.div<TargetContainerProps>`
-  position: relative;
+  position: absolute;
   text-align: center;
+  padding: ${props => (props.isFixed ? "20px" : "")};
   border-width: ${props => (props.isFixed ? `5px` : `0`)};
   border-style: dotted;
   border-color: #000;
+  cursor: move;
 
   &::after {
     content: "Target will fixed on background.";
@@ -48,22 +50,42 @@ const TargetContainer = styled.div<TargetContainerProps>`
   }
 `;
 
-const Target = styled.img`
-  padding: 20px;
-`;
+const Target = styled.img``;
 
 // components
 class CreateAnimationComponent extends React.Component<Props, State> {
+  private targetContainerRef = React.createRef<HTMLDivElement>();
+
+  private dragTargetStart = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    this.targetContainerRef.current!.onmousemove = () => {
+      this.dragTarget(event);
+    };
+  };
+
+  private dragTarget = (event: React.MouseEvent<HTMLDivElement>) => {
+    console.log(event.currentTarget);
+  };
+
+  private dropTarget = (event: React.MouseEvent<HTMLDivElement>) => {
+    // console.log(event.currentTarget.offsetTop);
+    // console.log(event.currentTarget.offsetLeft);
+  };
+
   render() {
     const { target, options } = this.props.animations;
-    console.log(options);
 
     return (
       <FlexBox direction="row">
         <AsideTool />
         <Container justifyContent="center" alignItems="center">
           {target.data ? (
-            <TargetContainer isFixed={options.fixed}>
+            <TargetContainer
+              ref={this.targetContainerRef}
+              isFixed={options.fixed}
+              onMouseDown={this.dragTargetStart}
+              onMouseUp={this.dropTarget}
+            >
               <Target src={target.data} />
             </TargetContainer>
           ) : (
