@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { Content, FlexBox, Strong, SubTitle, PrimaryButton } from "@ui";
 import { setTarget, setInitialOptions } from "@actions/animations";
 import { OptionsDropdown, Option } from "./optionsDropdown";
-import { getSizeWithUnit } from "@utils";
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -89,6 +88,7 @@ const TargetName = styled(Content)`
   z-index: 0;
   transform: translateY(100%);
   width: 100%;
+  height: 20px;
   margin-bottom: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -223,6 +223,7 @@ class CreateTargetComponent extends React.Component<Props, State> {
   };
 
   render() {
+    const { target, options } = this.props.animations;
     const inputTargetProps: InputTargetProps = {
       fadeIn: this.fadeIn,
       fadeOut: this.fadeOut,
@@ -238,19 +239,19 @@ class CreateTargetComponent extends React.Component<Props, State> {
           {
             key: "fixed",
             name: "fixed (no animation)",
-            isChecked: false
+            disabled: !target.data
           }
         ],
         animation: [
           {
             key: "transform",
             name: "transform animation",
-            isChecked: false
+            disabled: !target.data || options.fixed
           },
           {
             key: "fade",
             name: "fade animation",
-            isChecked: false
+            disabled: !target.data || options.fixed
           }
         ]
       },
@@ -261,7 +262,7 @@ class CreateTargetComponent extends React.Component<Props, State> {
       <Container>
         <InputTarget {...inputTargetProps} />
         <InitialSetting {...initialSettingProps} />
-        <PrimaryButton>Create Animation</PrimaryButton>
+        <PrimaryButton disabled={!target.data}>Create Object</PrimaryButton>
       </Container>
     );
   }

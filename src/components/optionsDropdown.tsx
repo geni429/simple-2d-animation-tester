@@ -7,7 +7,7 @@ import { Category, FlexBox, CheckBox, Content } from "@ui";
 export type Option = {
   key: string;
   name: string;
-  isChecked: boolean;
+  disabled: boolean;
 };
 
 // component props
@@ -22,9 +22,7 @@ const OptionsDropdownContainer = styled.div`
   margin-bottom: 16px;
 `;
 
-const OptionName = styled(Category)`
-  cursor: pointer;
-`;
+const OptionName = styled(Category)``;
 
 const OptionItem = styled(FlexBox)``;
 
@@ -45,7 +43,10 @@ export const OptionsDropdown: React.SFC<Props> = ({
         return (
           <OptionItem key={optionItem.name} direction="row">
             <OptionItemName>{optionItem.name}</OptionItemName>
-            <CheckBox onChange={() => checkOptionEvent(optionItem.key)} />
+            <CheckBox
+              disabled={optionItem.disabled}
+              onChange={() => checkOptionEvent(optionItem.key)}
+            />
           </OptionItem>
         );
       })}

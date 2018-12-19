@@ -4,12 +4,16 @@ import { connect } from "react-redux";
 
 import { AsideTool } from "@components";
 import { FlexBox, Header } from "@ui";
-import { getSizeWithUnit } from "@utils";
 
 const mapStateToProps = (state: RootState) => {
   return {
     animations: state.animations
   };
+};
+
+// styled components props
+type TargetContainerProps = {
+  isFixed: boolean;
 };
 
 // components props
@@ -25,19 +29,12 @@ const Container = styled(FlexBox)`
   background: #ffffff;
 `;
 
-// styled-components
-const TargetContainer = styled.div`
+const TargetContainer = styled.div<TargetContainerProps>`
+  position: relative;
   text-align: center;
-`;
-const Target = styled.img``;
-const TargetFixed = styled.div<{ width: number; height: number }>`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: ${props => getSizeWithUnit(props.width + 50)};
-  height: ${props => getSizeWithUnit(props.height + 50)};
-  border: 2px dashed #000;
+  border-width: ${props => (props.isFixed ? `5px` : `0`)};
+  border-style: dotted;
+  border-color: #000;
 
   &::after {
     content: "Target will fixed on background.";
@@ -46,27 +43,28 @@ const TargetFixed = styled.div<{ width: number; height: number }>`
     right: 0;
     transform: translate(calc(100% + 20px), -50%);
     white-space: pre;
-    font-size: 24px;
+    font-size: ${props => (props.isFixed ? "22px" : "0")};
+    font-weight: 100;
   }
+`;
+
+const Target = styled.img`
+  padding: 20px;
 `;
 
 // components
 class CreateAnimationComponent extends React.Component<Props, State> {
   render() {
     const { target, options } = this.props.animations;
+    console.log(options);
 
     return (
       <FlexBox direction="row">
         <AsideTool />
         <Container justifyContent="center" alignItems="center">
           {target.data ? (
-            <TargetContainer>
+            <TargetContainer isFixed={options.fixed}>
               <Target src={target.data} />
-              {options.fixed ? (
-                <TargetFixed width={target.width} height={target.height} />
-              ) : (
-                void 0
-              )}
             </TargetContainer>
           ) : (
             <Header>Create animation object to make your animation!</Header>
