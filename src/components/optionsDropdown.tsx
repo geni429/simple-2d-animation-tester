@@ -3,13 +3,6 @@ import styled from "styled-components";
 
 import { Category, FlexBox, CheckBox, Content } from "@ui";
 
-// types
-export type Option = {
-  key: string;
-  name: string;
-  disabled: boolean;
-};
-
 // component props
 type Props = {
   optionName: string;
@@ -40,12 +33,15 @@ export const OptionsDropdown: React.SFC<Props> = ({
     <OptionsDropdownContainer>
       <OptionName>{optionName}</OptionName>
       {optionItems.map(optionItem => {
+        const { key, name, disabled, defaultValue = void 0 } = optionItem;
+
         return (
-          <OptionItem key={optionItem.name} direction="row">
-            <OptionItemName>{optionItem.name}</OptionItemName>
+          <OptionItem key={name} direction="row">
+            <OptionItemName>{name}</OptionItemName>
             <CheckBox
-              disabled={optionItem.disabled}
-              onChange={() => checkOptionEvent(optionItem.key)}
+              disabled={disabled}
+              checked={defaultValue}
+              onChange={() => checkOptionEvent(key)}
             />
           </OptionItem>
         );

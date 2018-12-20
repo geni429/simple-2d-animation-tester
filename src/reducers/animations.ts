@@ -4,7 +4,9 @@ const initialState: AnimationsState = {
   target: {
     data: "",
     width: 0,
-    height: 0
+    height: 0,
+    x: 0,
+    y: 0
   },
   options: {
     fixed: false

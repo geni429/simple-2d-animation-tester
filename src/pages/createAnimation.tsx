@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import Draggable, { DraggableData } from "react-draggable";
 
 import { AsideTool } from "@components";
 import { FlexBox, Header } from "@ui";
@@ -19,7 +20,10 @@ type TargetContainerProps = {
 // components props
 type Props = ReturnType<typeof mapStateToProps>;
 
-type State = {};
+type State = {
+  targetX: number;
+  targetY: number;
+};
 
 // styled components
 const Container = styled(FlexBox)`
@@ -54,22 +58,18 @@ const Target = styled.img``;
 
 // components
 class CreateAnimationComponent extends React.Component<Props, State> {
+  state: State = {
+    targetX: 0,
+    targetY: 0
+  };
+
   private targetContainerRef = React.createRef<HTMLDivElement>();
 
-  private dragTargetStart = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    this.targetContainerRef.current!.onmousemove = () => {
-      this.dragTarget(event);
-    };
-  };
-
-  private dragTarget = (event: React.MouseEvent<HTMLDivElement>) => {
-    console.log(event.currentTarget);
-  };
-
-  private dropTarget = (event: React.MouseEvent<HTMLDivElement>) => {
-    // console.log(event.currentTarget.offsetTop);
-    // console.log(event.currentTarget.offsetLeft);
+  private getTargetPosition = (_: MouseEvent, data: DraggableData) => {
+    this.setState({
+      targetX: data.x,
+      targetY: data.y
+    });
   };
 
   render() {
@@ -80,14 +80,18 @@ class CreateAnimationComponent extends React.Component<Props, State> {
         <AsideTool />
         <Container justifyContent="center" alignItems="center">
           {target.data ? (
-            <TargetContainer
-              ref={this.targetContainerRef}
-              isFixed={options.fixed}
-              onMouseDown={this.dragTargetStart}
-              onMouseUp={this.dropTarget}
-            >
-              <Target src={target.data} />
-            </TargetContainer>
+            <Draggable onDrag={this.getTargetPosition}>
+              <TargetContainer
+                ref={this.targetContainerRef}
+                isFixed={options.fixed}
+                onDragStart={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                <Target src={target.data} />
+              </TargetContainer>
+            </Draggable>
           ) : (
             <Header>Create animation object to make your animation!</Header>
           )}

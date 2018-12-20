@@ -1,10 +1,11 @@
 import * as React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { Content, FlexBox, Strong, SubTitle, PrimaryButton } from "@ui";
 import { setTarget, setInitialOptions } from "@actions/animations";
-import { OptionsDropdown, Option } from "./optionsDropdown";
+import { OptionsDropdown } from "./optionsDropdown";
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -39,7 +40,9 @@ type InitialSettingProps = {
   checkOptionEvent(optionName: string): void;
 };
 
-type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+type Props = RouteComponentProps<{}> &
+  ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps;
 
 type State = {
   isDragOver: boolean;
@@ -203,7 +206,9 @@ class CreateTargetComponent extends React.Component<Props, State> {
           this.props.setTarget({
             data: String(reader.result),
             width: target.width,
-            height: target.height
+            height: target.height,
+            x: 0,
+            y: 0
           });
         };
       };
@@ -214,6 +219,10 @@ class CreateTargetComponent extends React.Component<Props, State> {
         targetName: event.currentTarget.files![0].name
       });
     }
+  };
+
+  private createObject = () => {
+    this.props.history.push("/aaa");
   };
 
   public checkOption = (key: AnimationOptionKeys) => {
@@ -262,7 +271,9 @@ class CreateTargetComponent extends React.Component<Props, State> {
       <Container>
         <InputTarget {...inputTargetProps} />
         <InitialSetting {...initialSettingProps} />
-        <PrimaryButton disabled={!target.data}>Create Object</PrimaryButton>
+        <PrimaryButton disabled={!target.data} onClick={this.createObject}>
+          Create Object
+        </PrimaryButton>
       </Container>
     );
   }
@@ -271,4 +282,4 @@ class CreateTargetComponent extends React.Component<Props, State> {
 export const CreateTarget = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateTargetComponent);
+)(withRouter<Props>(CreateTargetComponent));
