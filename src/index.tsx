@@ -9,7 +9,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { CreateAnimation } from "@pages";
+import { CreateAnimationObject } from "@pages";
 import { GlobalStyles } from "@utils";
 import { getStore } from "@reducers";
 
@@ -19,7 +19,7 @@ render(
     <StyledNormalize />
     <Router>
       <Switch>
-        <Route path="/create" exact={true} component={CreateAnimation} />
+        <Route path="/create" exact={true} component={CreateAnimationObject} />
         <Redirect to="/create" />
       </Switch>
     </Router>

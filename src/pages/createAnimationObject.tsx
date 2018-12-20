@@ -57,7 +57,7 @@ const TargetContainer = styled.div<TargetContainerProps>`
 const Target = styled.img``;
 
 // components
-class CreateAnimationComponent extends React.Component<Props, State> {
+class CreateAnimationObjectComponent extends React.Component<Props, State> {
   state: State = {
     targetX: 0,
     targetY: 0
@@ -101,6 +101,6 @@ class CreateAnimationComponent extends React.Component<Props, State> {
   }
 }
 
-export const CreateAnimation = connect(mapStateToProps)(
-  CreateAnimationComponent
+export const CreateAnimationObject = connect(mapStateToProps)(
+  CreateAnimationObjectComponent
 );

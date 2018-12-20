@@ -1,1 +1,1 @@
-export { CreateAnimation } from "./createAnimation";
+export { CreateAnimationObject } from "./createAnimationObject";
