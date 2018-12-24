@@ -9,8 +9,13 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { CreateAnimationObject } from "@pages";
-import { GlobalStyles } from "@utils";
+import { CreateAnimationObject, Main } from "@pages";
+import {
+  GlobalStyles,
+  ROUTE_CREATE,
+  ROUTE_UPDATE,
+  ROUTE_DEFAULT
+} from "@utils";
 import { getStore } from "@reducers";
 
 const root = document.getElementById("root") as HTMLDivElement;
@@ -19,8 +24,13 @@ render(
     <StyledNormalize />
     <Router>
       <Switch>
-        <Route path="/create" exact={true} component={CreateAnimationObject} />
-        <Redirect to="/create" />
+        <Route
+          path={ROUTE_CREATE}
+          exact={true}
+          component={CreateAnimationObject}
+        />
+        <Route path={ROUTE_UPDATE} exact={true} component={Main} />
+        <Redirect to={ROUTE_DEFAULT} />
       </Switch>
     </Router>
     <GlobalStyles />
