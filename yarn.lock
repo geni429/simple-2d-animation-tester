@@ -665,6 +665,11 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.3.tgz#6310a047f12d21a1036fb031317219892440416f"
   integrity sha512-4zAPlpDEh2VwXswwr/t8xGNDGg8RQiPxtxZ3qQEXyQsBV39ptTdESCjuBvGze1nLMVrxmTIKmnO/nAV8Tqjjzg==
 
+"@types/animejs@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/animejs/-/animejs-2.0.1.tgz#f8088e8a0db301ffd4211bebe920d7896aab254c"
+  integrity sha512-IwmCpzWi8YMnk7cpIsMhnoM54Qc9tfE5MJcuv/71jSeeWS0QVw/aAcTyZatG9phUHW0S0AIqezO+uISqAWkZIg==
+
 "@types/history@*":
   version "4.7.2"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.7.2.tgz#0e670ea254d559241b6eeb3894f8754991e73220"
@@ -1034,6 +1039,11 @@ ajv@^6.1.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
+
+animejs@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/animejs/-/animejs-2.2.0.tgz#35eefdfc535b81949c9cb06f0b3e60c02e6fdc80"
+  integrity sha1-Ne79/FNbgZScnLBvCz5gwC5v3IA=
 
 ansi-colors@^3.0.0:
   version "3.2.3"
