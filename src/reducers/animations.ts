@@ -1,39 +1,43 @@
 import {
-  SET_TARGET,
-  SET_INITIAL_OPTIONS,
-  SET_TARGET_POSITION
-} from "@actions/constants";
+  SET_CREATE_TARGET,
+  SET_CREATE_TARGET_INITIAL_OPTIONS,
+  SET_CREATE_TARGET_POSITION
+} from "@actions";
 
 const initialState: AnimationsState = {
-  target: {
+  createTarget: {
     data: "",
     width: 0,
     height: 0,
     x: 0,
-    y: 0
+    y: 0,
+    options: {
+      fixed: false
+    }
   },
-  options: {
-    fixed: false
-  }
+  createdTargets: []
 };
 
 export const animations = (state = initialState, action: any) => {
   switch (action.type) {
-    case SET_TARGET:
+    case SET_CREATE_TARGET:
       return {
         ...state,
-        target: action.payload
+        createTarget: action.payload
       };
-    case SET_INITIAL_OPTIONS:
+    case SET_CREATE_TARGET_INITIAL_OPTIONS:
       return {
         ...state,
-        options: action.payload
+        createTarget: {
+          ...state.createTarget,
+          options: action.payload
+        }
       };
-    case SET_TARGET_POSITION:
+    case SET_CREATE_TARGET_POSITION:
       return {
         ...state,
-        target: {
-          ...state.target,
+        createTarget: {
+          ...state.createTarget,
           x: action.payload.x,
           y: action.payload.y
         }

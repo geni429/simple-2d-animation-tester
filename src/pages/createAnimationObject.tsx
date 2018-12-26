@@ -5,7 +5,7 @@ import { DraggableData } from "react-draggable";
 
 import { AsideTool, AnimationTarget } from "@components";
 import { FlexBox, Header } from "@ui";
-import { setTargetPosition } from "@actions/animations";
+import { setCreateTargetPosition } from "@actions";
 
 const mapStateToProps = (state: RootState) => {
   return {
@@ -14,7 +14,7 @@ const mapStateToProps = (state: RootState) => {
 };
 
 const mapDispatchToProps = {
-  setTargetPosition
+  setCreateTargetPosition
 };
 
 // components props
@@ -41,23 +41,25 @@ class CreateAnimationObjectComponent extends React.Component<Props, State> {
   };
 
   private getTargetPosition = (_: MouseEvent, data: DraggableData) => {
-    this.props.setTargetPosition({
+    this.props.setCreateTargetPosition({
       x: data.x,
       y: data.y
     });
   };
 
   render() {
-    const { target, options } = this.props.animations;
+    const { createTarget } = this.props.animations;
+    const { data, options } = createTarget;
+    const { fixed } = options;
 
     return (
       <FlexBox direction="row">
         <AsideTool />
         <Container justifyContent="center" alignItems="center">
-          {target.data ? (
+          {data ? (
             <AnimationTarget
-              isFixed={options.fixed}
-              target={target}
+              isFixed={fixed}
+              target={createTarget}
               onDrag={this.getTargetPosition}
             />
           ) : (

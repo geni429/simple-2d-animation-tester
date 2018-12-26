@@ -2,12 +2,19 @@ interface ObjectType<T> {
   [key: string]: T;
 }
 
+interface AnimationOptions {
+  fixed: boolean;
+  transform?: boolean;
+  fade?: boolean;
+}
+
 interface AnimationTarget {
   data: string;
   width: number;
   height: number;
   x: number;
   y: number;
+  options: AnimationOptions;
 }
 
 interface Option {
@@ -15,12 +22,6 @@ interface Option {
   name: string;
   disabled: boolean;
   defaultValue?: boolean;
-}
-
-interface AnimationOptions {
-  fixed: boolean;
-  transform?: boolean;
-  fade?: boolean;
 }
 
 interface TargetPosition {

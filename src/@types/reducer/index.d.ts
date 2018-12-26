@@ -1,6 +1,8 @@
 interface AnimationsState {
-  target: AnimationTarget;
-  options: AnimationOptions;
+  createTarget: AnimationTarget & {
+    options: AnimationOptions;
+  };
+  createdTargets: Array<AnimationTarget>;
 }
 
 interface RootState {

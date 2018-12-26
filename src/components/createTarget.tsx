@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { Content, FlexBox, Strong, SubTitle, PrimaryButton } from "@ui";
-import { setTarget, setInitialOptions } from "@actions/animations";
+import { setCreateTarget, setCreateTargetInitialOptions } from "@actions";
 import { OptionsDropdown } from "./optionsDropdown";
 
 const mapStateToProps = (state: RootState) => {
@@ -14,8 +14,8 @@ const mapStateToProps = (state: RootState) => {
 };
 
 const mapDispatchToProps = {
-  setTarget,
-  setInitialOptions
+  setCreateTarget,
+  setCreateTargetInitialOptions
 };
 
 // styled components props
@@ -203,12 +203,15 @@ class CreateTargetComponent extends React.Component<Props, State> {
         const target = new Image();
         target.src = String(reader.result);
         target.onload = () => {
-          this.props.setTarget({
+          this.props.setCreateTarget({
             data: String(reader.result),
             width: target.width,
             height: target.height,
             x: 0,
-            y: 0
+            y: 0,
+            options: {
+              fixed: false
+            }
           });
         };
       };
@@ -226,13 +229,15 @@ class CreateTargetComponent extends React.Component<Props, State> {
   };
 
   public checkOption = (key: AnimationOptionKeys) => {
-    const options = { ...this.props.animations.options };
+    const options = { ...this.props.animations.createTarget.options };
     options[key] = !options[key];
-    this.props.setInitialOptions(options);
+    this.props.setCreateTargetInitialOptions(options);
   };
 
   render() {
-    const { target, options } = this.props.animations;
+    const { createTarget } = this.props.animations;
+    const { data, options } = createTarget;
+    const { fixed } = options;
     const inputTargetProps: InputTargetProps = {
       fadeIn: this.fadeIn,
       fadeOut: this.fadeOut,
@@ -248,19 +253,19 @@ class CreateTargetComponent extends React.Component<Props, State> {
           {
             key: "fixed",
             name: "fixed (no animation)",
-            disabled: !target.data
+            disabled: !data
           }
         ],
         animation: [
           {
             key: "transform",
             name: "transform animation",
-            disabled: !target.data || options.fixed
+            disabled: !data || fixed
           },
           {
             key: "fade",
             name: "fade animation",
-            disabled: !target.data || options.fixed
+            disabled: !data || fixed
           }
         ]
       },
@@ -271,7 +276,7 @@ class CreateTargetComponent extends React.Component<Props, State> {
       <Container>
         <InputTarget {...inputTargetProps} />
         <InitialSetting {...initialSettingProps} />
-        <PrimaryButton disabled={!target.data} onClick={this.createObject}>
+        <PrimaryButton disabled={!data} onClick={this.createObject}>
           Create Object
         </PrimaryButton>
       </Container>
