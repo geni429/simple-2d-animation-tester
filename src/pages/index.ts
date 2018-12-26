@@ -1,2 +1,2 @@
 export { CreateAnimationObject } from "./createAnimationObject";
-export { Main } from "./main";
+export { UpdateAnimationObject } from "./updateAnimationObject";

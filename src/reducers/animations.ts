@@ -1,4 +1,8 @@
-import { SET_TARGET, SET_INITIAL_OPTIONS } from "@actions/constants";
+import {
+  SET_TARGET,
+  SET_INITIAL_OPTIONS,
+  SET_TARGET_POSITION
+} from "@actions/constants";
 
 const initialState: AnimationsState = {
   target: {
@@ -24,6 +28,15 @@ export const animations = (state = initialState, action: any) => {
       return {
         ...state,
         options: action.payload
+      };
+    case SET_TARGET_POSITION:
+      return {
+        ...state,
+        target: {
+          ...state.target,
+          x: action.payload.x,
+          y: action.payload.y
+        }
       };
     default:
       return state;

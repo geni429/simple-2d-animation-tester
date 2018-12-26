@@ -222,7 +222,7 @@ class CreateTargetComponent extends React.Component<Props, State> {
   };
 
   private createObject = () => {
-    this.props.history.push("/aaa");
+    this.props.history.push("/update");
   };
 
   public checkOption = (key: AnimationOptionKeys) => {

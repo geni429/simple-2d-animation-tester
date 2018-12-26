@@ -23,4 +23,9 @@ interface AnimationOptions {
   fade?: boolean;
 }
 
+interface TargetPosition {
+  x: number;
+  y: number;
+}
+
 type AnimationOptionKeys = "fixed" | "transform" | "fade";

@@ -9,7 +9,7 @@ import {
   Redirect
 } from "react-router-dom";
 
-import { CreateAnimationObject, Main } from "@pages";
+import { CreateAnimationObject, UpdateAnimationObject } from "@pages";
 import {
   GlobalStyles,
   ROUTE_CREATE,
@@ -29,7 +29,11 @@ render(
           exact={true}
           component={CreateAnimationObject}
         />
-        <Route path={ROUTE_UPDATE} exact={true} component={Main} />
+        <Route
+          path={ROUTE_UPDATE}
+          exact={true}
+          component={UpdateAnimationObject}
+        />
         <Redirect to={ROUTE_DEFAULT} />
       </Switch>
     </Router>

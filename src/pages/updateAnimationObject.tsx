@@ -1,10 +1,11 @@
 import * as React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { DraggableData } from "react-draggable";
 
 import { AsideTool, AnimationTarget } from "@components";
-import { FlexBox, Header } from "@ui";
+import { FlexBox } from "@ui";
 import { setTargetPosition } from "@actions/animations";
 
 const mapStateToProps = (state: RootState) => {
@@ -17,28 +18,18 @@ const mapDispatchToProps = {
   setTargetPosition
 };
 
-// components props
-type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+type Props = ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps & {};
+type State = {};
 
-type State = {
-  targetX: number;
-  targetY: number;
-};
-
-// styled components
 const Container = styled(FlexBox)`
-  position: relative;
   width: calc(100% - 420px);
   height: 100vh;
   background: #ffffff;
 `;
 
-// components
-class CreateAnimationObjectComponent extends React.Component<Props, State> {
-  public state: State = {
-    targetX: 0,
-    targetY: 0
-  };
+class UpdateAnimationObjectComponent extends React.Component<Props, State> {
+  public state: State = {};
 
   private getTargetPosition = (_: MouseEvent, data: DraggableData) => {
     this.props.setTargetPosition({
@@ -47,29 +38,29 @@ class CreateAnimationObjectComponent extends React.Component<Props, State> {
     });
   };
 
-  render() {
+  public render() {
     const { target, options } = this.props.animations;
+
+    if (!target.data) {
+      return <Redirect to="/create" />;
+    }
 
     return (
       <FlexBox direction="row">
         <AsideTool />
         <Container justifyContent="center" alignItems="center">
-          {target.data ? (
-            <AnimationTarget
-              isFixed={options.fixed}
-              target={target}
-              onDrag={this.getTargetPosition}
-            />
-          ) : (
-            <Header>Create animation object to make your animation!</Header>
-          )}
+          <AnimationTarget
+            isFixed={options.fixed}
+            target={target}
+            onDrag={this.getTargetPosition}
+          />
         </Container>
       </FlexBox>
     );
   }
 }
 
-export const CreateAnimationObject = connect(
+export const UpdateAnimationObject = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateAnimationObjectComponent);
+)(UpdateAnimationObjectComponent);
