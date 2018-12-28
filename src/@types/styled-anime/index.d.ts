@@ -39,6 +39,7 @@ type DirectionOptions = "reverse" | "alternate" | "normal";
 
 interface StyledAnimeComponentProps {
   children?: React.ReactNode;
+  played?: boolean;
 }
 
 interface StyledAnimeParams {

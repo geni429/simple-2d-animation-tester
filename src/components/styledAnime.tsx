@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled, { SimpleInterpolation } from "styled-components";
+import styled, { SimpleInterpolation, css } from "styled-components";
 import anime from "animejs";
 
 export const styledAnime = (
@@ -9,21 +9,48 @@ export const styledAnime = (
   ...interpolations: SimpleInterpolation[]
 ) => (config: StyledAnimeParams) => {
   const StyledComponent = styled(TargetComponent)`
-    ${style}
-    ${interpolations}
+    ${css(style, ...interpolations)};
   `;
 
-  return class extends React.Component<StyledAnimeComponentProps> {
-    targetRef = React.createRef<HTMLElement>();
+  return class extends React.PureComponent<StyledAnimeComponentProps> {
+    private targetRef = React.createRef<HTMLElement>();
+    private animation: anime.AnimeInstance | undefined = void 0;
 
-    componentDidMount() {
-      anime({
+    private isPlayed = (): boolean => {
+      const { played } = this.props;
+
+      return played !== undefined ? played : true;
+    };
+
+    private play = () => {
+      this.animation && this.animation.play();
+    };
+
+    private pause = () => {
+      this.animation && this.animation.pause();
+    };
+
+    public componentDidMount() {
+      const props = { ...this.props };
+
+      delete props.children;
+      delete props.played;
+
+      this.animation = anime({
         targets: this.targetRef.current,
-        ...config
+        autoplay: false,
+        ...config,
+        ...props
       });
+
+      this.isPlayed() ? this.play() : this.pause();
     }
 
-    render() {
+    public render() {
+      if (this.animation !== void 0) {
+        this.isPlayed() ? this.play() : this.pause();
+      }
+
       return (
         <StyledComponent ref={this.targetRef}>
           {this.props.children}
